@@ -9,7 +9,7 @@
             | |                                                __/ | 
             |_|                                               |___/  
 
-]]
+]]--
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Nicuse/RobloxScripts/main/Backup/DiscordInviter.lua"))().Prompt({
     invite = "vRM9nWTS2u",
