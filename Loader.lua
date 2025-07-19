@@ -4,10 +4,11 @@ local scriptUrls = {
 }
 
 
+
 local scriptUrl = scriptUrls[game.PlaceId]
 if scriptUrl then
     local success, errorMsg = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/VortexLinx/Project-Vmax/main/Scripts/" .. scriptUrl))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/iubauhqhuiauhiszivjou1i89781iuwnuk8p/-/refs/heads/main/" .. scriptUrl))()
     end)
     if not success then
         warn("[Devil Ugly] Failed to load script:", errorMsg)
