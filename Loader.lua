@@ -1,6 +1,6 @@
 --//Variables
 local scriptUrls = {
-    [109983668079237] = "StealABrainrot.lua"
+    [96342491571673] = "StealABrainrot.lua"
 }
 
 
