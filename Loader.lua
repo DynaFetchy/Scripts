@@ -1,8 +1,8 @@
---//Variables
+--// Variables
 local scriptUrls = {
-    [96342491571673] = "StealABrainrot.lua"
+    [96342491571673] = "StealABrainrot.lua",
+    [109983668079237] = "StealABrainrot.lua"
 }
-
 
 local scriptUrl = scriptUrls[game.PlaceId]
 if scriptUrl then
