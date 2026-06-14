@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0c0a09">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>vintlyfree</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0a09;--bg2:#1c1917;--bg3:#292524;--panel:#1c1917;--border:#44403c;--accent:#d97706;--accent2:#f59e0b;--text:#fafaf9;--dim:#a8a29e;--muted:#78716c;--red:#ef4444;--font:'Inter',sans-serif;--serif:'Playfair Display',serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow:hidden}
+#splash{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease}
+#splash.done{opacity:0;pointer-events:none}
+.splash-logo{font-family:var(--serif);font-size:42px;font-weight:400;font-style:italic;color:var(--accent);margin-bottom:16px;animation:fadeUp 1.2s ease}
+.splash-line{width:60px;height:1px;background:var(--border);margin-bottom:16px;animation:expand 1.5s ease}
+.splash-sub{font-size:11px;color:var(--muted);letter-spacing:4px;text-transform:uppercase;animation:fadeUp 1.4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes expand{from{width:0}to{width:60px}}
+#app{height:100%;display:flex;flex-direction:column;opacity:0;transition:opacity .6s ease}
+#app.on{opacity:1}
+.header{padding:16px 20px 12px;background:rgba(12,10,9,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;z-index:50}
+.header-brand{font-family:var(--serif);font-size:20px;font-weight:400;font-style:italic;color:var(--accent)}
+.header-tag{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0;padding-bottom:90px}
+.main::-webkit-scrollbar{display:none}
+.view{display:none;animation:in .35s ease}
+.view.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero{padding:60px 24px 40px;text-align:center}
+.hero-title{font-family:var(--serif);font-size:36px;font-weight:400;font-style:italic;line-height:1.2;margin-bottom:12px}
+.hero-sub{font-size:13px;color:var(--dim);line-height:1.6;max-width:280px;margin:0 auto 24px}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.hero-btn:active{transform:scale(.96)}
+.divider{display:flex;align-items:center;gap:16px;padding:0 24px;margin:24px 0}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-text{font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin:0 16px 12px}
+.card-title{font-family:var(--serif);font-size:20px;font-weight:400;font-style:italic;margin-bottom:8px}
+.card-text{font-size:13px;color:var(--dim);line-height:1.7}
+.card-img{width:100%;height:180px;background:var(--bg3);border-radius:12px;margin-bottom:16px;object-fit:cover}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-bottom:12px}
+.grid-item{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.grid-num{font-family:var(--serif);font-size:28px;font-weight:400;color:var(--accent);margin-bottom:4px}
+.grid-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.link-card{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin:0 16px 10px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text)}
+.link-card:active{transform:scale(.98);background:var(--bg3)}
+.link-icon{width:40px;height:40px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px}
+.link-info{flex:1}
+.link-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.link-url{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.link-arrow{color:var(--dim);font-size:18px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,10,9,.95);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 24px;z-index:50}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 18px;background:none;border:none;color:var(--muted);font-family:var(--font);font-size:9px;font-weight:700;cursor:pointer;transition:color .2s}
+.nav-btn.active{color:var(--accent)}
+.nav-icon{font-size:20px}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.3}
+.empty-title{font-family:var(--serif);font-size:18px;font-weight:400;font-style:italic;color:var(--dim);margin-bottom:8px}
+.about-img{width:100px;height:100px;border-radius:50%;background:var(--bg3);margin:0 auto 20px;object-fit:cover;border:2px solid var(--border)}
+.quote{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--dim);text-align:center;line-height:1.6;padding:20px 24px;border-left:2px solid var(--accent);margin:0 16px 12px}
+</style>
+</head>
+<body>
+
+<div id="splash">
+<div class="splash-logo">vintlyfree</div>
+<div class="splash-line"></div>
+<div class="splash-sub">est. 2026</div>
+</div>
+
+<div id="app">
+<header class="header">
+<div class="header-brand">vintlyfree</div>
+<div class="header-tag">.xyz</div>
+</header>
+
+<main class="main">
+<!-- HOME -->
+<div id="view-home" class="view active">
+<div class="hero">
+<div class="hero-title">freely<br>vintage</div>
+<div class="hero-sub">A digital space curated with intention. Hosted on your own terms.</div>
+<button class="hero-btn" onclick="go('links')">Explore →</button>
+</div>
+
+<div class="divider">
+<div class="divider-line"></div>
+<div class="divider-text">At a Glance</div>
+<div class="divider-line"></div>
+</div>
+
+<div class="grid">
+<div class="grid-item">
+<div class="grid-num">01</div>
+<div class="grid-label">Projects</div>
+</div>
+<div class="grid-item">
+<div class="grid-num">∞</div>
+<div class="grid-label">Freedom</div>
+</div>
+<div class="grid-item">
+<div class="grid-num">24/7</div>
+<div class="grid-label">Online</div>
+</div>
+<div class="grid-item">
+<div class="grid-num">0€</div>
+<div class="grid-label">Cost</div>
+</div>
+</div>
+
+<div class="quote">
+"Move what was built elsewhere to a place that is truly yours."
+</div>
+</div>
+
+<!-- LINKS -->
+<div id="view-links" class="view">
+<div style="padding:24px 16px 12px">
+<div class="card-title" style="font-size:24px;margin-bottom:4px">Connections</div>
+<div style="font-size:12px;color:var(--muted)">Your previous and current spaces</div>
+</div>
+
+<a class="link-card" href="https://vintlyfree.lovable.app/" target="_blank">
+<div class="link-icon">🔗</div>
+<div class="link-info">
+<div class="link-title">Original Build</div>
+<div class="link-url">vintlyfree.lovable.app</div>
+</div>
+<div class="link-arrow">→</div>
+</a>
+
+<a class="link-card" href="https://vintlyfree.xyz" target="_blank">
+<div class="link-icon" style="background:rgba(217,119,6,.15)">⭐</div>
+<div class="link-info">
+<div class="link-title">New Home</div>
+<div class="link-url">vintlyfree.xyz</div>
+</div>
+<div class="link-arrow">→</div>
+</a>
+
+<div class="divider">
+<div class="divider-line"></div>
+<div class="divider-text">Redirect</div>
+<div class="divider-line"></div>
+</div>
+
+<div class="card">
+<div class="card-text">
+Visitors to <strong>vintlyfree.xyz</strong> can be forwarded to any destination you choose. Update the meta refresh or JavaScript redirect in this file to point anywhere.
+</div>
+</div>
+</div>
+
+<!-- ABOUT -->
+<div id="view-about" class="view">
+<div class="hero" style="padding-top:40px">
+<div class="about-img"></div>
+<div class="hero-title" style="font-size:28px">Your Space</div>
+<div class="hero-sub">This template is yours. Rename it, reshape it, host it anywhere. No dependencies, no costs, no limits.</div>
+</div>
+
+<div class="card">
+<div class="card-title">How to Host</div>
+<div class="card-text">
+1. Save this file as <strong>index.html</strong><br>
+2. Upload to GitHub Pages, Netlify, Cloudflare, or Vercel<br>
+3. Connect your free .xyz domain in settings<br>
+4. Done. Your space is live.
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">Customize</div>
+<div class="card-text">
+Search & replace <strong>vintlyfree</strong> with your brand. Change colors in the CSS :root. Add pages by copying the view structure. Everything is in this single file.
+</div>
+</div>
+</div>
+</main>
+
+<nav class="nav">
+<button class="nav-btn active" onclick="go('home')">
+<div class="nav-icon">◉</div>
+<div style="margin-top:2px">Home</div>
+</button>
+<button class="nav-btn" onclick="go('links')">
+<div class="nav-icon">↗</div>
+<div style="margin-top:2px">Links</div>
+</button>
+<button class="nav-btn" onclick="go('about')">
+<div class="nav-icon">◎</div>
+<div style="margin-top:2px">About</div>
+</button>
+</nav>
+</div>
+
+<script>
+window.addEventListener('load',()=>{
+setTimeout(()=>{document.getElementById('splash').classList.add('done');document.getElementById('app').classList.add('on');},2000);
+});
+function go(v){
+document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+document.getElementById('view-'+v).classList.add('active');
+document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
